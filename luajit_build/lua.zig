@@ -46,11 +46,7 @@ pub fn configure(
         .optimize = optimize,
         .link_libc = true,
     });
-    const library = b.addLibrary(.{
-        .name = library_name,
-        .version = version,
-        .linkage = if (shared) .dynamic else .static,
-    });
+    const library = b.addLibrary(.{ .name = library_name, .version = version, .linkage = if (shared) .dynamic else .static, .root_module = lib });
 
     lib.addIncludePath(upstream.path("src"));
 
