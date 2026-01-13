@@ -26,8 +26,8 @@ static int l_setCell(lua_State *L) {
   Engine *engine = (Engine *)lua_touserdata(L, -1);
   lua_pop(L, 2); // pop te.__engine
 
-  if (cell < 0 || cell >= 256 || x < 0 || x >= engine->grid->w || y < 0 ||
-      y >= engine->grid->h)
+  if (cell < 0 || cell >= 256 || x < 0 || x >= (int)engine->grid->w || y < 0 ||
+      y >= (int)engine->grid->h)
     return 0;
 
   grid_set(engine->grid, (size_t)x, (size_t)y,
@@ -53,8 +53,9 @@ static int l_print(lua_State *L) {
   Engine *engine = (Engine *)lua_touserdata(L, -1);
   lua_pop(L, 2); // pop te.__engine
 
-  for (int i = 0; i < strlen(text); i++) {
-    if (x + i < 0 || x + i >= engine->grid->w || y < 0 || y >= engine->grid->h)
+  for (int i = 0; i < (int)strlen(text); i++) {
+    if (x + i < 0 || x + i >= (int)engine->grid->w || y < 0 ||
+        y >= (int)engine->grid->h)
       return 0;
 
     grid_set(engine->grid, x + i, y,
@@ -177,6 +178,8 @@ static lua_Debug get_lua_src_loc(lua_State *L) {
     int line = 0;                                                              \
                                                                                \
     lua_Debug ar = get_lua_src_loc(L);                                         \
+    file = ar.source;                                                          \
+    line = ar.linedefined;                                                     \
     slog(file, line, SLOG_##macro, "%s", msg);                                 \
                                                                                \
     return 0;                                                                  \

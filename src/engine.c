@@ -65,25 +65,25 @@ bool poll_lua_file_change(Engine *engine) {
   while (i < length) {
     struct inotify_event *event = (struct inotify_event *)&buffer[i];
 
-    printf("File event\n");
     if (event->mask & IN_MODIFY) {
-      printf("File was modified.\n");
+      info("Lua file was modified. Reloading...");
       change = true;
     }
     if (event->mask & IN_CREATE) {
-      printf("File was created.\n");
+      info("Lua file was created. Reloading...");
       change = true;
     }
     if (event->mask & IN_DELETE) {
-      printf("File was deleted.\n");
+      warning("Lua file was deleted. Reloading...");
       change = true;
     }
     if (event->mask & IN_ATTRIB) {
-      printf("File was changed\n");
+      info("Lua file was changed. Reloading...");
       change = true;
     }
     if (event->mask & IN_IGNORED) {
-      printf("File was removed from inotify adding back\n");
+      warning(
+          "Lua file was removed from inotify. Adding back and reloading...");
       add_lua_file_watch(engine, TextFormat("%s/main.lua", engine->game_path));
       change = true;
     }

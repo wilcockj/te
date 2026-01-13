@@ -11,7 +11,10 @@
 #include <stdlib.h>
 
 static void usage(const char *prog_name) {
-  printf("Usage: %s path/to/game\n", prog_name);
+  printf("Usage:\n"
+         "    %s run  path/to/game\n"
+         "    %s init new/game/path\n",
+         prog_name, prog_name);
 }
 
 static bool verify_game_path(const char *game_path) {
@@ -91,6 +94,7 @@ int main(int argc, char *argv[]) {
   }
 
   const char *game_path = argv[1];
+
   if (!verify_game_path(game_path)) {
     return EXIT_FAILURE;
   }

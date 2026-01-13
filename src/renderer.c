@@ -1,5 +1,7 @@
 #include "renderer.h"
 #include "colors.h"
+#include "generated/images/Mx437_IBM_BIOS_16px.png.h"
+#include "generated/shaders/shader.glsl.h"
 #include "globals.h"
 #include "grid.h"
 #include <assert.h>
@@ -33,12 +35,16 @@ Renderer *renderer_init(Engine *engine) {
   Renderer *renderer = malloc(sizeof(Renderer));
   assert(renderer);
 
-  renderer->atlas = (GlyphAtlas){
-      .texture = LoadTexture("assets/images/Mx437_IBM_BIOS_16px.png"),
-      .glyph_w = GLYPH_W,
-      .glyph_h = GLYPH_H};
+  Image atlas =
+      LoadImageFromMemory(".png", assets_images_Mx437_IBM_BIOS_16px_png,
+                          assets_images_Mx437_IBM_BIOS_16px_png_len);
+  renderer->atlas = (GlyphAtlas){.texture = LoadTextureFromImage(atlas),
+                                 .glyph_w = GLYPH_W,
+                                 .glyph_h = GLYPH_H};
+  UnloadImage(atlas);
 
-  renderer->grid_shader.shader = LoadShader(NULL, "assets/shaders/shader.glsl");
+  renderer->grid_shader.shader =
+      LoadShaderFromMemory(NULL, (char *)assets_shaders_shader_glsl);
 
   // Cache shader locations
   renderer->grid_shader.glyphAtlasTextureLoc =

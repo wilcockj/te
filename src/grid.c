@@ -18,8 +18,8 @@ void grid_set(Grid *grid, size_t x, size_t y, Cell cell) {
 }
 
 void grid_fill(Grid *grid, Cell cell) {
-  for (int y = 0; y < grid->h; y++) {
-    for (int x = 0; x < grid->w; x++) {
+  for (int y = 0; y < (int)grid->h; y++) {
+    for (int x = 0; x < (int)grid->w; x++) {
       grid_set(grid, x, y, cell);
     }
   }
@@ -29,8 +29,8 @@ Texture grid_render_texture(Grid *grid) {
   Image image = GenImageColor(grid->w, grid->h, BLANK);
   unsigned char *image_data = image.data;
 
-  for (int y = 0; y < grid->h; y++) {
-    for (int x = 0; x < grid->w; x++) {
+  for (int y = 0; y < (int)grid->h; y++) {
+    for (int x = 0; x < (int)grid->w; x++) {
       Cell cell = grid->cells[y * grid->w + x];
 
       int pixel_offset = (y * grid->w + x) * 4;

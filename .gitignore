@@ -2,3 +2,5 @@ te
 .clangd
 .zig-cache/
 zig-out/
+build/
+src/generated/*

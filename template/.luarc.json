@@ -1,0 +1,9 @@
+{
+  "workspace.library": [
+    "./lua/"
+  ],
+  "diagnostics.globals": [
+    "te"
+  ],
+  "runtime.version": "Lua5.4"
+}
